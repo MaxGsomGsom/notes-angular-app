@@ -1,23 +1,27 @@
-// Copyright 2020 Russian Post
-// This source code is Russian Post Confidential Proprietary.
-// This software is protected by copyright. All rights and titles are reserved.
-// You shall not use, copy, distribute, modify, decompile, disassemble or reverse engineer the software.
-// Otherwise this violation would be treated by law and would be subject to legal prosecution.
-// Legal use of the software provides receipt of a license from the right holder only.
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import '@angular/compiler';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NotesComponent } from './notes/notes.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api/http-client-in-memory-web-api.module';
+import { InMemoryDataService } from './services/in-memory-data.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotesComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [],
   bootstrap: [AppComponent]
