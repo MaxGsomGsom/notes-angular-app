@@ -1,25 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Note } from '../interfaces/note';
+import { Section } from '../interfaces/section';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotesService {
-  private readonly baseUrl = 'api/notes';
+export class SectionsService {
+  private readonly baseUrl = 'api/sections';
 
   constructor(private http: HttpClient) { }
 
-  getNotes(sectionId: number): Observable<Note[]> {
-    return this.http.get<Note[]>(`${this.baseUrl}?sectionId=${sectionId}`);
+  getSections(): Observable<Section[]> {
+    return this.http.get<Section[]>(this.baseUrl);
   }
 
-  addNote(item: Note): Observable<void> {
+  addSection(item: Section): Observable<void> {
     return this.http.post<void>(this.baseUrl, item);
   }
 
-  removeNote(id: number): Observable<void> {
+  removeSection(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

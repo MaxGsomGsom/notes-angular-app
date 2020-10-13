@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Section } from './interfaces/section';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'notes-app';
-  name = 'John';
+  
+  section: Section | undefined;
+
+  setSection(section: Section) {
+    this.section = section;
+}
+
 }
