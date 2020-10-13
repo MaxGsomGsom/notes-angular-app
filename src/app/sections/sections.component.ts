@@ -9,17 +9,25 @@ import { SectionsService } from '../services/sections.service';
 })
 export class SectionsComponent implements OnInit {
 
-  sections: Section[] = [];
+  private sectionsField: Section[];
   activeSection: Section | undefined;
   @Output() sectionChanged: EventEmitter<Section> = new EventEmitter<Section>();
 
+  get sections(): Section[] {
+    return this.sectionsField;
+  }
+  set sections(value: Section[]) {
+    this.sectionsField = value;
+    this.sectionsField.forEach((e, i) => e.order = i);
+    this.sectionsService.addSections(this.sectionsField).subscribe();
+  }
 
   constructor(private sectionsService: SectionsService) { }
 
   getSections(): void {
     this.sectionsService.getSections().subscribe(e => {
-      this.sections = e;
-      if (this.sections.length > 0) {
+      this.sectionsField = e.sort(this.sort);
+      if (!this.activeSection && this.sections.length > 0) {
         this.showSection(this.sections[0]);
       }
     });
@@ -40,18 +48,26 @@ export class SectionsComponent implements OnInit {
       return;
     }
 
-    const section: Section = { title, id: undefined };
-    this.sections.unshift(section);
+    const nextOrder = Math.max(...this.sections.map(e => e.order)) + 1;
+    const section: Section = { title, id: undefined, order: nextOrder };
+    this.sections.push(section);
     this.showSection(section);
 
     this.sectionsService.addSection(section)
-      .subscribe(() => {
-        newSection.value = '';
-        this.getSections();
-      });
+      .subscribe(() => newSection.value = '');
   }
 
   ngOnInit(): void {
     this.getSections();
+  }
+
+  private sort(a: Section, b: Section): number {
+    if (a.order < b.order) {
+      return -1;
+    } else if (a.order > b.order) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }

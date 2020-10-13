@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { Section } from '../interfaces/section';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class SectionsService {
     return this.http.post<void>(this.baseUrl, item);
   }
 
-  removeSection(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  addSections(items: Section[]): Observable<void> {
+    return merge(...items.map(item => this.http.post<void>(this.baseUrl, item)));
   }
 }

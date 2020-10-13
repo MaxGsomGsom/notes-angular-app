@@ -7,7 +7,7 @@ const initDb: Db = {
     { id: 1, text: 'Test note', sectionId: 1 }
   ],
   sections: [
-    { id: 1, title: 'Test section' }
+    { id: 1, title: 'Test section', order: 1 }
   ]
 };
 
