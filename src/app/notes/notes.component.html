@@ -17,7 +17,7 @@
 
     <div class="panel-body">
         <div class="form-group">
-            <textarea class="form-control" [(ngModel)]="text"></textarea>
+            <textarea class="form-control" [(ngModel)]="text" #noteText></textarea>
         </div>
         <button (click)="add()" class="btn btn-primary">Post note</button>
     </div>

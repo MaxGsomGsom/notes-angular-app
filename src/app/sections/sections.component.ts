@@ -42,8 +42,8 @@ export class SectionsComponent implements OnInit {
   }
 
   showSection(section: Section): void {
-    this.activeSection = section;
-    this.sectionChanged.emit(this.activeSection);
+    //this.activeSection = section; //disabled for CanDeactivateDemo
+    this.sectionChanged.emit(section);
   }
 
   addSection(newSection: HTMLInputElement) {

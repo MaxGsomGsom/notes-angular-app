@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Section } from '../interfaces/section';
 import { SectionsService } from '../services/sections.service';
 import { map } from 'rxjs/operators';
+import { NotesComponent } from '../notes/notes.component';
 
 @Component({
   selector: 'app-notes-editor',
@@ -11,6 +12,7 @@ import { map } from 'rxjs/operators';
 })
 export class NotesEditorComponent implements OnInit {
   section: Section | undefined;
+  @ViewChild(NotesComponent) notesComponent: NotesComponent;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -26,7 +28,7 @@ export class NotesEditorComponent implements OnInit {
   }
 
   setSection(section: Section) {
-    this.section = section;
+    //this.section = section; //disabled for CanDeactivateDemo
     this.router.navigate([section.id]);
   }
 

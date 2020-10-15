@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Note } from '../interfaces/note';
 import { Section } from '../interfaces/section';
 import { NotesService } from '../services/notes.service';
@@ -9,10 +9,11 @@ import { NotesService } from '../services/notes.service';
   styleUrls: ['./notes.component.less']
 })
 export class NotesComponent implements OnInit {
-
   private sectionField: Section;
+
   text: string;
   notes: Note[] = [];
+  @ViewChild('noteText') noteText: ElementRef<HTMLTextAreaElement>;
 
   @Input()
   set section(value: Section) {
