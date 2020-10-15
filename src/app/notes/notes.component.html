@@ -1,24 +1,24 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Add your note to section {{section.title}}</h3>
-    </div>
-
-    <div class="panel-body">
-        <div class="form-group">
-            <textarea style="min-width:100%;min-height:200px" class="form-control" [(ngModel)]="text"></textarea>
-        </div>
-        <button (click)="add()" class="btn btn-primary">Post note</button>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <h3 class="panel-heading ">Notes</h3>
+    <h5 class="panel-heading ">Notes</h5>
 
     <ul class="list-group" ng-repeat="note in notes">
         <li *ngFor="let note of notes" class="list-group-item">
             {{note.text}}
-            <button (click)="remove(note.id)" class="btn btn-line btn-sm">Remove</button>
-            <button (click)="moveOnTop(note.id)" class="btn btn-line btn-sm">Move on top</button>
+            <button (click)="remove(note.id)" class="btn btn-light btn-sm">Remove</button>
+            <button (click)="moveOnTop(note.id)" class="btn btn-light btn-sm">Move on top</button>
         </li>
     </ul>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h5 class="panel-title">Add your note to section <a [routerLink]="['/viewSection', section.id]">{{section.title}}</a></h5>
+    </div>
+
+    <div class="panel-body">
+        <div class="form-group">
+            <textarea class="form-control" [(ngModel)]="text"></textarea>
+        </div>
+        <button (click)="add()" class="btn btn-primary">Post note</button>
+    </div>
 </div>

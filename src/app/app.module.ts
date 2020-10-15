@@ -11,13 +11,19 @@ import { FormsModule } from '@angular/forms';
 import { SectionsComponent } from './sections/sections.component';
 import { DragulaModule } from 'ng2-dragula';
 import { SectionFilterPipe } from './services/section-filter.pipe';
+import { NotesEditorComponent } from './notes-editor/notes-editor.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ViewSectionComponent } from './view-section/view-section.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotesComponent,
     SectionsComponent,
-    SectionFilterPipe
+    SectionFilterPipe,
+    NotesEditorComponent,
+    PageNotFoundComponent,
+    ViewSectionComponent
   ],
   imports: [
     BrowserModule,

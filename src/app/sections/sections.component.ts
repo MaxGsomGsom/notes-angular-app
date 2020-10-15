@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Section } from '../interfaces/section';
 import { SectionsService } from '../services/sections.service';
 
@@ -21,6 +21,14 @@ export class SectionsComponent implements OnInit {
     this.sectionsField.forEach((e, i) => e.order = i);
     this.sectionsService.addSections(this.sectionsField).subscribe();
   }
+
+  @Input()
+  set section(section: Section) {
+    if (section) {
+      this.activeSection = section;
+    }
+  }
+
 
   constructor(private sectionsService: SectionsService) { }
 
@@ -50,11 +58,11 @@ export class SectionsComponent implements OnInit {
 
     const nextOrder = Math.max(...this.sections.map(e => e.order)) + 1;
     const section: Section = { title, id: undefined, order: nextOrder };
-    this.sections.push(section);
-    this.showSection(section);
-
     this.sectionsService.addSection(section)
-      .subscribe(() => newSection.value = '');
+      .subscribe(() => {
+        newSection.value = '';
+        this.getSections();
+      });
   }
 
   ngOnInit(): void {

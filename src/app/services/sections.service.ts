@@ -15,6 +15,10 @@ export class SectionsService {
     return this.http.get<Section[]>(this.baseUrl);
   }
 
+  getSection(id: number): Observable<Section> {
+    return this.http.get<Section>(`${this.baseUrl}/${id}`);
+  }
+
   addSection(item: Section): Observable<void> {
     return this.http.post<void>(this.baseUrl, item);
   }
