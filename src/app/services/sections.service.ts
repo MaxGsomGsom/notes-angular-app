@@ -11,12 +11,12 @@ export class SectionsService {
 
   constructor(private http: HttpClient) { }
 
-  getSections(): Observable<Section[]> {
-    return this.http.get<Section[]>(this.baseUrl);
+  getSections(userId: number): Observable<Section[]> {
+    return this.http.get<Section[]>(`${this.baseUrl}?userId=${userId}`);
   }
 
-  getSection(id: number): Observable<Section> {
-    return this.http.get<Section>(`${this.baseUrl}/${id}`);
+  getSection(id: number, userId: number): Observable<Section | undefined> {
+    return this.http.get<Section>(`${this.baseUrl}/${id}?userId=${userId}`);
   }
 
   addSection(item: Section): Observable<void> {

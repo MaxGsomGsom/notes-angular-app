@@ -4,6 +4,7 @@ import { Note } from '../interfaces/note';
 import { Section } from '../interfaces/section';
 import { NotesService } from '../services/notes.service';
 import { SectionsService } from '../services/sections.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-view-section',
@@ -16,14 +17,15 @@ export class ViewSectionComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private sectionService: SectionsService,
-              private noteService: NotesService) { }
+              private noteService: NotesService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
-    if (this.route.snapshot.params.id) {
-      this.sectionService.getSection(this.route.snapshot.params.id)
-      .subscribe(e => this.section = e);
+    if (this.route.snapshot.params.id && this.userService.loggedIn) {
+      this.sectionService.getSection(this.route.snapshot.params.id, this.userService.loggedIn.id)
+        .subscribe(e => this.section = e);
       this.noteService.getNotes(this.route.snapshot.params.id)
-      .subscribe(e => this.notes = e);
+        .subscribe(e => this.notes = e);
     }
   }
 

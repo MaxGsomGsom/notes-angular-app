@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { LoginUser } from '../interfaces/login-user';
 import { User } from '../interfaces/user';
@@ -10,50 +10,34 @@ import { User } from '../interfaces/user';
 })
 export class UserService {
   private readonly baseUrl = 'api/users';
-  private loggedInField: boolean;
-  private userLoginSource = new Subject<LoginUser>();
+  private loggedInField: LoginUser | undefined;
 
-  get loggedIn(): boolean {
+  get loggedIn(): LoginUser | undefined {
     return this.loggedInField;
   }
 
-  userLogin$ = this.userLoginSource.asObservable();
-
-
   constructor(private http: HttpClient) { }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl);
-  }
-
-  getUser(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${id}`);
-  }
-
-  getUserByName(name: string): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}?userName=${name}`);
+  getUserByName(name: string): Observable<User | undefined> {
+    return this.http.get<User[]>(`${this.baseUrl}?userName=${name}`)
+      .pipe(map(e => e.length > 0 ? e[0] : undefined));
   }
 
   addUser(item: User): Observable<void> {
     return this.http.post<void>(this.baseUrl, item);
   }
 
-  login(user: LoginUser): Observable<boolean> {
+  login(login: string, pass: string): Observable<LoginUser> {
     return this.http
-      .get<User[]>(`${this.baseUrl}?userName=${user.userName}&password=${user.password}`)
+      .get<User[]>(`${this.baseUrl}?userName=${login}`)
       .pipe(map(e => {
-        this.loggedInField = e.length > 0;
-        if (this.loggedInField) {
-          this.userLoginSource.next(user);
-        }
+        this.loggedInField = e.length > 0 && e[0].password === pass ? e[0] : undefined;
         return this.loggedInField;
       }));
   }
 
-  logout(): Observable<void> {
-    this.loggedInField = false;
-    this.userLoginSource.next();
-    return of();
+  logout(): void {
+    this.loggedInField = undefined;
   }
 
 }

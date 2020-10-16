@@ -11,7 +11,7 @@ export class CanDeactivateNoteService implements CanDeactivate<NotesEditorCompon
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    const note = notesEditorComponent.notesComponent.noteText.nativeElement.value;
+    const note = notesEditorComponent.notesComponent && notesEditorComponent.notesComponent.noteText.nativeElement.value;
     if (note && note.length > 0) {
       return window.confirm(
         `You have entered the note.\nDo you really want to change section?`);

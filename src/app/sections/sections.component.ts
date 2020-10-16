@@ -32,10 +32,10 @@ export class SectionsComponent implements OnInit {
 
 
   constructor(private sectionsService: SectionsService,
-              private usersService: UserService) { }
+              private userService: UserService) { }
 
   getSections(): void {
-    this.sectionsService.getSections().subscribe(e => {
+    this.sectionsService.getSections(this.userService.loggedIn.id).subscribe(e => {
       this.sectionsField = e.sort(this.sort);
       if (!this.activeSection && this.sections.length > 0) {
         this.showSection(this.sections[0]);
@@ -63,7 +63,7 @@ export class SectionsComponent implements OnInit {
       title,
       id: undefined,
       order: nextOrder,
-      userId: 1 // TODO
+      userId: this.userService.loggedIn.id
     };
     this.sectionsService.addSection(section)
       .subscribe(() => {
@@ -73,7 +73,7 @@ export class SectionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.usersService.userLogin$.subscribe(user => this.getSections());
+    this.getSections();
   }
 
   private sort(a: Section, b: Section): number {

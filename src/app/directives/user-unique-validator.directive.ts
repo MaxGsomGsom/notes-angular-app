@@ -17,7 +17,7 @@ export class UserUniqueValidatorDirective implements AsyncValidator {
   validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
     const user = control.value;
     return this.userService.getUserByName(user).pipe(map(e => {
-      return e.length > 0 ? { notUnique: true } : {};
+      return e ? { notUnique: true } : {};
     }));
   }
 }

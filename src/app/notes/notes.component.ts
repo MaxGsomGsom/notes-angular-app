@@ -18,6 +18,9 @@ export class NotesComponent {
     this.sectionField = value;
     this.getNotes();
   }
+  get section(): Section {
+    return this.sectionField;
+  }
 
   constructor(private notesService: NotesService) { }
 

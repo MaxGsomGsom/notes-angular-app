@@ -4,7 +4,7 @@
             <app-notes *ngIf="section" [section]="section"></app-notes>
         </div>
         <div class="col-md-4">
-            <app-sections [section]="section" (sectionChanged)="setSection($event)"></app-sections>
+            <app-sections *ngIf="loggedIn" [section]="section" (sectionChanged)="setSection($event)"></app-sections>
         </div>
     </div>
 </div>

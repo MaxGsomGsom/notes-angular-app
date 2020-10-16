@@ -15,21 +15,24 @@ export class NotesEditorComponent implements OnInit {
   section: Section | undefined;
   @ViewChild(NotesComponent) notesComponent: NotesComponent;
 
+  get loggedIn(): boolean {
+    return !!this.usersService.loggedIn;
+  }
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private sectionService: SectionsService,
               private usersService: UserService) { }
 
   ngOnInit(): void {
-    this.route.params
-      .pipe(map(params => params.id))
-      .subscribe(id => {
-        if (id && this.usersService.loggedIn) {
-          this.sectionService.getSection(id)
-            .subscribe(e => this.section = e);
-        }
-      });
+    this.route.params.subscribe(params => this.getSection(params.id));
+  }
 
+  getSection(id: number) {
+    if (id && this.usersService.loggedIn) {
+      this.sectionService.getSection(id, this.usersService.loggedIn.id)
+        .subscribe(e => this.section = e);
+    }
   }
 
   setSection(section: Section) {
