@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { Note } from '../interfaces/note';
 import { Section } from '../interfaces/section';
 import { NotesService } from '../services/notes.service';
@@ -8,10 +8,8 @@ import { NotesService } from '../services/notes.service';
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.less']
 })
-export class NotesComponent implements OnInit {
+export class NotesComponent {
   private sectionField: Section;
-
-  text: string;
   notes: Note[] = [];
   @ViewChild('noteText') noteText: ElementRef<HTMLTextAreaElement>;
 
@@ -21,20 +19,16 @@ export class NotesComponent implements OnInit {
     this.getNotes();
   }
 
-  get section(): Section {
-    return this.sectionField;
-  }
-
   constructor(private notesService: NotesService) { }
 
   add(): void {
     const note: Note = {
-      text: this.text,
+      text: this.noteText.nativeElement.value,
       id: undefined,
-      sectionId: this.section.id
+      sectionId: this.sectionField.id
     };
     this.notesService.addNote(note).subscribe(() => {
-      this.text = '';
+      this.noteText.nativeElement.value = '';
       this.getNotes();
     });
   }
@@ -46,7 +40,7 @@ export class NotesComponent implements OnInit {
   }
 
   getNotes(): void {
-    this.notesService.getNotes(this.section.id).subscribe(e => {
+    this.notesService.getNotes(this.sectionField.id).subscribe(e => {
       this.notes = e;
       this.notes.sort(this.sort);
     });
@@ -59,10 +53,6 @@ export class NotesComponent implements OnInit {
         this.getNotes();
       });
     });
-  }
-
-  ngOnInit(): void {
-    this.getNotes();
   }
 
   private sort(a: Note, b: Note): number {

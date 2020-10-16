@@ -4,6 +4,7 @@ import { Section } from '../interfaces/section';
 import { SectionsService } from '../services/sections.service';
 import { map } from 'rxjs/operators';
 import { NotesComponent } from '../notes/notes.component';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-notes-editor',
@@ -16,13 +17,14 @@ export class NotesEditorComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private sectionService: SectionsService) { }
+              private sectionService: SectionsService,
+              private usersService: UserService) { }
 
   ngOnInit(): void {
     this.route.params
       .pipe(map(params => params.id))
       .subscribe(id => {
-        if (id) {
+        if (id && this.usersService.loggedIn) {
           this.sectionService.getSection(id)
             .subscribe(e => this.section = e);
         }

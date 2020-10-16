@@ -32,6 +32,6 @@ export class EqualToValidatorDirective implements Validator {
     if (e && v !== e.value) {
       return { validateEqual: true };
     }
-    return null;
+    return { };
   }
 }

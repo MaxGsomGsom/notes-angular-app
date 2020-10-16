@@ -1,5 +1,5 @@
 export interface Section {
-    id: number;
+    id: number | undefined;
     title: string;
     order: number;
     userId: number;

@@ -1,5 +1,5 @@
 export interface Note {
-    id: number;
+    id: number | undefined;
     text: string;
     sectionId: number;
 }

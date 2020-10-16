@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Section } from '../interfaces/section';
 import { SectionsService } from '../services/sections.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-sections',
@@ -30,7 +31,8 @@ export class SectionsComponent implements OnInit {
   }
 
 
-  constructor(private sectionsService: SectionsService) { }
+  constructor(private sectionsService: SectionsService,
+              private usersService: UserService) { }
 
   getSections(): void {
     this.sectionsService.getSections().subscribe(e => {
@@ -42,7 +44,7 @@ export class SectionsComponent implements OnInit {
   }
 
   showSection(section: Section): void {
-    //this.activeSection = section; //disabled for CanDeactivateDemo
+    // this.activeSection = section; //disabled for CanDeactivateDemo
     this.sectionChanged.emit(section);
   }
 
@@ -57,7 +59,12 @@ export class SectionsComponent implements OnInit {
     }
 
     const nextOrder = Math.max(...this.sections.map(e => e.order)) + 1;
-    const section: Section = { title, id: undefined, order: nextOrder, userId: 1 }; //TODO
+    const section: Section = {
+      title,
+      id: undefined,
+      order: nextOrder,
+      userId: 1 // TODO
+    };
     this.sectionsService.addSection(section)
       .subscribe(() => {
         newSection.value = '';
@@ -66,7 +73,7 @@ export class SectionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getSections();
+    this.usersService.userLogin$.subscribe(user => this.getSections());
   }
 
   private sort(a: Section, b: Section): number {
