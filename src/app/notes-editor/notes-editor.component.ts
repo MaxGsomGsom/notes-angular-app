@@ -21,9 +21,12 @@ export class NotesEditorComponent implements OnInit {
   ngOnInit(): void {
     this.route.params
       .pipe(map(params => params.id))
-      .subscribe(id =>
-        this.sectionService.getSection(id)
-          .subscribe(e => this.section = e));
+      .subscribe(id => {
+        if (id) {
+          this.sectionService.getSection(id)
+            .subscribe(e => this.section = e);
+        }
+      });
 
   }
 

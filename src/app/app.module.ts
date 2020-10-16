@@ -14,6 +14,9 @@ import { SectionFilterPipe } from './services/section-filter.pipe';
 import { NotesEditorComponent } from './notes-editor/notes-editor.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ViewSectionComponent } from './view-section/view-section.component';
+import { UserFormComponent } from './user-form/user-form.component';
+import { EqualToValidatorDirective } from './directives/equal-to-validator.directive';
+import { UserUniqueValidatorDirective } from './directives/user-unique-validator.directive';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { ViewSectionComponent } from './view-section/view-section.component';
     SectionFilterPipe,
     NotesEditorComponent,
     PageNotFoundComponent,
-    ViewSectionComponent
+    ViewSectionComponent,
+    UserFormComponent,
+    EqualToValidatorDirective,
+    UserUniqueValidatorDirective
   ],
   imports: [
     BrowserModule,

@@ -57,7 +57,7 @@ export class SectionsComponent implements OnInit {
     }
 
     const nextOrder = Math.max(...this.sections.map(e => e.order)) + 1;
-    const section: Section = { title, id: undefined, order: nextOrder };
+    const section: Section = { title, id: undefined, order: nextOrder, userId: 1 }; //TODO
     this.sectionsService.addSection(section)
       .subscribe(() => {
         newSection.value = '';

@@ -7,7 +7,10 @@ const initDb: Db = {
     { id: 1, text: 'Test note', sectionId: 1 }
   ],
   sections: [
-    { id: 1, title: 'Test section', order: 1 }
+    { id: 1, title: 'Test section', order: 1, userId: 1 }
+  ],
+  users: [
+    { id: 1, dateOfBirth: '01/01/2020', email: 'test@test.ru', password: '1234', password2: '1234', subscribe: true, userName: 'TestUser' }
   ]
 };
 
@@ -18,7 +21,11 @@ export class InMemoryDataService implements InMemoryDbService {
   private db: Db;
 
   constructor() {
-    setInterval(() => localStorage.setItem('db', JSON.stringify(this.db)), 1000);
+    setInterval(() => {
+      if (this.db) {
+        localStorage.setItem('db', JSON.stringify(this.db));
+      }
+    }, 1000);
   }
 
   createDb() {
